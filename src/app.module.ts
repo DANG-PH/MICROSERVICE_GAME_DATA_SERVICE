@@ -6,6 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import { NpcBaseModule } from './game-data/npc-base/npc-base.module';
 import { NpcSpawnModule } from './game-data/npc-spawn/npc-spawn.module';
 import { MapBaseModule } from './game-data/map-base/map-base.module';
+import { NpcShopItemModule } from './game-data/npc-shop-item/npc-shop-item.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { MapBaseModule } from './game-data/map-base/map-base.module';
     NpcBaseModule,
     NpcSpawnModule,
     MapBaseModule,
+    NpcShopItemModule,
   ],
   controllers: [AppController],
   providers: [AppService],

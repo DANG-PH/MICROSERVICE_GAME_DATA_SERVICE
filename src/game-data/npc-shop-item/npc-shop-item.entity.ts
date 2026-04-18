@@ -1,0 +1,40 @@
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne, JoinColumn } from 'typeorm';
+import { NpcBaseEntity } from '../npc-base/npc-base.entity';
+
+export enum LoaiTien {
+  VANG = 'VANG',
+  NGOC = 'NGOC',
+  // sau này thêm vào đây
+}
+
+export enum TabShop {
+  AO_QUAN  = 'AO_QUAN',
+  PHU_KIEN = 'PHU_KIEN',
+  DAC_BIET = 'DAC_BIET',
+  // sau này thêm vào đây
+}
+
+@Entity('npc_shop_item')
+export class NpcShopItemEntity {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @ManyToOne(() => NpcBaseEntity)
+  @JoinColumn({ name: 'npc_base_id' })
+  npcBase: NpcBaseEntity;
+
+  @Column({ length: 100 })
+  tenItem: string;
+
+  @Column()
+  gia: number;
+
+  @Column({ type: 'enum', enum: LoaiTien })
+  loaiTien: LoaiTien;
+
+  @Column({ type: 'enum', enum: TabShop })
+  tab: TabShop;
+
+  @Column({ default: true })
+  is_active: boolean;
+}
