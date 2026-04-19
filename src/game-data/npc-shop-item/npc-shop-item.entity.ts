@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne, JoinColumn } from 'typeorm';
 import { NpcBaseEntity } from '../npc-base/npc-base.entity';
+import { ItemBaseEntity } from '../item-base/item-base.entity';
 
 export enum LoaiTien {
   VANG = 'VANG',
@@ -23,8 +24,9 @@ export class NpcShopItemEntity {
   @JoinColumn({ name: 'npc_base_id' })
   npcBase: NpcBaseEntity;
 
-  @Column({ length: 100 })
-  tenItem: string;
+  @ManyToOne(() => ItemBaseEntity)   
+  @JoinColumn({ name: 'item_base_id' })
+  itemBase: ItemBaseEntity;
 
   @Column()
   gia: number;

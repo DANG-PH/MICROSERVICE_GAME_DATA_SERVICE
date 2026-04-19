@@ -7,6 +7,7 @@ import { NpcBaseModule } from './game-data/npc-base/npc-base.module';
 import { NpcSpawnModule } from './game-data/npc-spawn/npc-spawn.module';
 import { MapBaseModule } from './game-data/map-base/map-base.module';
 import { NpcShopItemModule } from './game-data/npc-shop-item/npc-shop-item.module';
+import { ItemBaseModule } from './game-data/item-base/item-base.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { NpcShopItemModule } from './game-data/npc-shop-item/npc-shop-item.modul
     NpcSpawnModule,
     MapBaseModule,
     NpcShopItemModule,
+    ItemBaseModule
   ],
   controllers: [AppController],
   providers: [AppService],

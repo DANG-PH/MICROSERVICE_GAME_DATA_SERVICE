@@ -24,7 +24,7 @@ export class NpcShopItemService {
   async getShopTheoNpc(data: GetShopTheoNpcRequest): Promise<GetShopTheoNpcResponse> {
     const items = await this.npcShopItemRepo.find({
       where: { npcBase: { id: data.npc_base_id }, is_active: true },
-      relations: ['npcBase'],
+      relations: ['npcBase', 'itemBase'],
       order: { id: 'ASC' },
     });
 
@@ -37,7 +37,7 @@ export class NpcShopItemService {
     const saved = await this.npcShopItemRepo.save(
       this.npcShopItemRepo.create({
         npcBase:   { id: data.npc_base_id },
-        tenItem:   data.tenItem,
+        itemBase:  { id: data.item_base_id }, // ← dùng item_base_id thay tenItem
         gia:       data.gia,
         loaiTien:  data.loaiTien as any,
         tab:       data.tab as any,
@@ -47,7 +47,7 @@ export class NpcShopItemService {
 
     const withRelation = await this.npcShopItemRepo.findOne({
       where: { id: saved.id },
-      relations: ['npcBase'],
+      relations: ['npcBase', 'itemBase'],
     });
 
     return this.toProto(withRelation);
@@ -56,7 +56,7 @@ export class NpcShopItemService {
   async suaShopItem(data: SuaShopItemRequest): Promise<NpcShopItem> {
     const item = await this.npcShopItemRepo.findOne({
       where: { id: data.id },
-      relations: ['npcBase'],
+      relations: ['npcBase', 'itemBase'],
     });
 
     if (!item) {
@@ -66,20 +66,27 @@ export class NpcShopItemService {
       });
     }
 
-    item.tenItem   = data.tenItem;
+    item.itemBase  = { id: data.item_base_id } as any; // ← đổi item
     item.gia       = data.gia;
     item.loaiTien  = data.loaiTien as any;
     item.tab       = data.tab as any;
     item.is_active = data.is_active;
 
     const saved = await this.npcShopItemRepo.save(item);
-    return this.toProto(saved);
+
+    // Reload để có full relation sau khi save
+    const withRelation = await this.npcShopItemRepo.findOne({
+      where: { id: saved.id },
+      relations: ['npcBase', 'itemBase'],
+    });
+
+    return this.toProto(withRelation);
   }
 
   async xoaShopItem(data: XoaShopItemRequest): Promise<Empty> {
     const item = await this.npcShopItemRepo.findOne({
       where: { id: data.id },
-      relations: ['npcBase'],
+      relations: ['npcBase', 'itemBase'],
     });
 
     if (!item) {
@@ -95,14 +102,16 @@ export class NpcShopItemService {
 
   private toProto(item: NpcShopItemEntity): NpcShopItem {
     return {
-      id:          item.id,
-      npc_base_id: item.npcBase.id,
-      ten_npc:     item.npcBase.ten,
-      tenItem:     item.tenItem,
-      gia:         item.gia,
-      loaiTien:    item.loaiTien,
-      tab:         item.tab,
-      is_active:   item.is_active,
+      id:           item.id,
+      npc_base_id:  item.npcBase.id,
+      ten_npc:      item.npcBase.ten,
+      item_base_id: item.itemBase.id,   // ← thay tenItem bằng item_base_id
+      ten_item:     item.itemBase.ten,  // ← tên lấy từ item_base
+      ma_item:      item.itemBase.ma,   // ← mã lấy từ item_base
+      gia:          item.gia,
+      loaiTien:     item.loaiTien,
+      tab:          item.tab,
+      is_active:    item.is_active,
     };
   }
 }
