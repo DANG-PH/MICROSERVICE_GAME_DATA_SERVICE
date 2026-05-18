@@ -8,6 +8,7 @@ import { NpcSpawnModule } from './game-data/npc-spawn/npc-spawn.module';
 import { MapBaseModule } from './game-data/map-base/map-base.module';
 import { NpcShopItemModule } from './game-data/npc-shop-item/npc-shop-item.module';
 import { ItemBaseModule } from './game-data/item-base/item-base.module';
+import { MusicModule } from './game-data/music/music.module';
 
 @Module({
   imports: [
@@ -29,7 +30,8 @@ import { ItemBaseModule } from './game-data/item-base/item-base.module';
     NpcSpawnModule,
     MapBaseModule,
     NpcShopItemModule,
-    ItemBaseModule
+    ItemBaseModule,
+    MusicModule
   ],
   controllers: [AppController],
   providers: [AppService],
