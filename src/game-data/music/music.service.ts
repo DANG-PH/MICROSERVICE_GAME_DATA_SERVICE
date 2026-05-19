@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { RpcException } from '@nestjs/microservices';
 import { status } from '@grpc/grpc-js';
-import { MusicEntity, MusicStatus } from './music.entity';
+import { MusicEntity } from './music.entity';
 import {
   Empty,
   GetAllMusicResponse,
@@ -12,6 +12,7 @@ import {
   SuaMusicRequest,
   XoaMusicRequest,
   Music,
+  MusicStatus,
 } from '../../../proto/game-data.pb';
 
 @Injectable()

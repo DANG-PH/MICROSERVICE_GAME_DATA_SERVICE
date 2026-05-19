@@ -1,13 +1,9 @@
+import { MusicStatus } from 'proto/game-data.pb';
 import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
 } from 'typeorm';
-
-export enum MusicStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-}
 
 @Entity('music')
 export class MusicEntity {
